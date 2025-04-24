@@ -1,0 +1,103 @@
+# Breast Cancer Detection Application
+
+![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml/badge.svg)
+
+A web application for detecting breast cancer from histopathological images using deep learning.
+
+## Features
+
+- Upload histopathological images for analysis
+- Real-time prediction using a trained deep learning model
+- Responsive web interface
+- Dockerized application for easy deployment
+
+## Technology Stack
+
+- **Frontend**: React.js
+- **Backend**: Flask (Python)
+- **Machine Learning**: TensorFlow/Keras
+- **Containerization**: Docker & Docker Compose
+- **CI/CD**: GitHub Actions
+
+## Architecture
+
+The application consists of two main components:
+
+1. **Frontend**: A React application that provides the user interface for uploading images and displaying results.
+2. **Backend**: A Flask API that processes images using a pre-trained deep learning model to predict whether the tissue is cancerous or non-cancerous.
+
+## Getting Started
+
+### Prerequisites
+
+- Docker and Docker Compose
+- Git
+
+### Installation and Running
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/keerthana777z/Breast-Cancer-Detection-Application.git
+   cd Breast-Cancer-Detection-Application
+   ```
+
+2. Start the application using Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. Access the application:
+   - Frontend: http://localhost:8080
+   - Backend API: http://localhost:5003
+
+### Development Setup
+
+If you want to run the application without Docker for development:
+
+1. Start the backend:
+   ```bash
+   cd BACKEND
+   pip install -r requirements.txt
+   python app.py
+   ```
+
+2. Start the frontend:
+   ```bash
+   cd my-app
+   npm install
+   npm start
+   ```
+
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+- **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request.
+- **Continuous Deployment**: (Coming soon) Automatically deploys the application to a cloud service when changes are pushed to the main branch.
+
+The CI/CD pipeline performs the following steps:
+1. Checks out the code
+2. Sets up Node.js and Python environments
+3. Installs dependencies
+4. Runs frontend tests
+5. Builds Docker images
+6. Starts the containers and verifies they're running correctly
+
+## Usage
+
+1. Open the application in your web browser
+2. Upload a histopathological image using the "Choose File" button
+3. Click "Predict" to analyze the image
+4. View the prediction result (Cancerous or Non-Cancerous)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- The model was trained on the [Breast Cancer Histopathological Database (BreakHis)](https://web.inf.ufpr.br/vri/databases/breast-cancer-histopathological-database-breakhis/)
