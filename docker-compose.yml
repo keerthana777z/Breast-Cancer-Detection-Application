@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./BACKEND
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5003"  # Exposing backend on port 5003
+    environment:
+      - MODEL_PATH=/app/my_model3.h5
+      - PORT=5003  # Explicitly set the port
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5003"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: always  # Restart backend if it crashes
+
+  frontend:
+    build:
+      context: ./my-app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"  # Exposing frontend on port 8080
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: ["nginx", "-g", "daemon off;"]  # Start nginx directly
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: always  # Restart frontend if it crashes
