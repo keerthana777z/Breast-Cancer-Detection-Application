@@ -10,70 +10,70 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
         cache: 'npm'
         cache-dependency-path: my-app/package-lock.json
-        
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
         cache: 'pip'
-        
+
     - name: Install frontend dependencies
       run: |
         cd my-app
         npm ci
-        
+
     - name: Install backend dependencies
       run: |
         cd BACKEND
         pip install -r requirements.txt
-        
+
     - name: Run frontend tests
       run: |
         cd my-app
-        npm test -- --watchAll=false
-        
+        CI=true npm test -- --watchAll=false --transformIgnorePatterns "node_modules/(?!axios)/"
+
     - name: Build and test Docker images
       run: |
         docker-compose build
-        
+
     - name: Run Docker containers
       run: |
         docker-compose up -d
         sleep 10  # Give containers time to start
-        
+
     - name: Check if containers are running
       run: |
         docker-compose ps
-        
+
     - name: Check backend health
       run: |
         curl -f http://localhost:5003 || echo "Backend not responding"
-        
+
     - name: Stop Docker containers
       run: |
         docker-compose down
-        
+
   # Uncomment and configure this job when you're ready to deploy
   # deploy:
   #   needs: test-and-build
   #   runs-on: ubuntu-latest
   #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-  #   
+  #
   #   steps:
   #   - name: Checkout code
   #     uses: actions/checkout@v3
-  #     
+  #
   #   - name: Deploy to cloud service
   #     run: |
   #       # Add deployment commands here
