@@ -73,15 +73,25 @@ If you want to run the application without Docker for development:
 This project uses GitHub Actions for continuous integration and deployment:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request.
-- **Continuous Deployment**: (Coming soon) Automatically deploys the application to a cloud service when changes are pushed to the main branch.
+- **Continuous Deployment**: Automatically deploys the application to AWS Elastic Beanstalk when changes are pushed to the main branch.
 
 The CI/CD pipeline performs the following steps:
+
+### Testing and Building
 1. Checks out the code
 2. Sets up Node.js and Python environments
 3. Installs dependencies
 4. Runs frontend tests
 5. Builds Docker images
 6. Starts the containers and verifies they're running correctly
+
+### Deployment
+7. Builds and pushes Docker images to Amazon ECR
+8. Generates Dockerrun.aws.json configuration
+9. Deploys to AWS Elastic Beanstalk
+
+### Alternative Deployment
+The project also includes a separate workflow to deploy the frontend to GitHub Pages for demonstration purposes.
 
 ## Usage
 
