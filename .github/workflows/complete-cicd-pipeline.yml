@@ -75,8 +75,8 @@ jobs:
       run: |
         docker-compose down
 
-  deploy-frontend:
-    name: Deploy Frontend
+  deploy-and-run:
+    name: Deploy and Run Application
     needs: test-and-build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -92,141 +92,53 @@ jobs:
         cache: 'npm'
         cache-dependency-path: my-app/package-lock.json
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
     - name: Install frontend dependencies
       run: |
         cd my-app
         npm ci
 
-    - name: Build frontend
+    - name: Install backend dependencies
+      run: |
+        cd BACKEND
+        pip install -r requirements.txt
+
+    - name: Start backend server
+      run: |
+        cd BACKEND
+        python app.py &
+        echo "Backend server started on http://localhost:5003"
+        sleep 5  # Give the backend time to start
+
+    - name: Start frontend development server
       run: |
         cd my-app
-        npm run build
+        npm start &
+        echo "Frontend server started on http://localhost:3000"
+        sleep 10  # Give the frontend time to start
 
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_DEPLOY_KEY }}
-        known_hosts: unnecessary
-        if_key_exists: replace
-
-    - name: Add known hosts
+    - name: Open application in browser
       run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+        if command -v xdg-open &> /dev/null; then
+          xdg-open http://localhost:3000
+        elif command -v open &> /dev/null; then
+          open http://localhost:3000
+        else
+          echo "Cannot open browser automatically. Please visit http://localhost:3000"
+        fi
 
-    - name: Deploy frontend to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
-        publish_dir: ./my-app/build
-        force_orphan: true
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        commit_message: 'Deploy frontend to GitHub Pages'
-
-  deploy-backend:
-    name: Deploy Backend
-    needs: test-and-build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Prepare backend deployment package
+    - name: Keep servers running
       run: |
-        mkdir -p backend-package
-        # Copy the backend code
-        cp -r BACKEND/* backend-package/
-        # Create a simple deployment script
-        cat > backend-package/deploy.sh << 'EOF'
-        #!/bin/bash
-        # Simple deployment script for the backend
+        echo "Application is now running locally"
+        echo "Frontend: http://localhost:3000"
+        echo "Backend: http://localhost:5003"
+        echo "Press Ctrl+C to stop the servers"
+        # Keep the workflow running for a while to allow testing
+        sleep 3600  # Run for 1 hour
 
-        # Install dependencies
-        pip install -r requirements.txt
 
-        # Run the backend
-        python app.py
-        EOF
-        chmod +x backend-package/deploy.sh
-
-        # Create a Docker Compose file for easy deployment
-        cat > backend-package/docker-compose.yml << 'EOF'
-        version: '3'
-        services:
-          backend:
-            build: .
-            ports:
-              - "5003:5003"
-            environment:
-              - PORT=5003
-        EOF
-
-        # Create a README with instructions
-        cat > backend-package/README.md << 'EOF'
-        # Breast Cancer Detection Backend
-
-        This is the backend for the Breast Cancer Detection Application.
-
-        ## Running with Docker
-
-        ```bash
-        # Build and run with Docker Compose
-        docker-compose up --build
-        ```
-
-        ## Running without Docker
-
-        ```bash
-        # Install dependencies
-        pip install -r requirements.txt
-
-        # Run the application
-        python app.py
-        ```
-
-        The backend will be available at http://localhost:5003
-        EOF
-
-        # Create a zip file of the backend package (under 100MB)
-        cd backend-package
-        zip -r ../backend-package.zip .
-        cd ..
-
-        # Move the zip file to the deployment directory
-        mkdir -p backend-artifacts
-        mv backend-package.zip backend-artifacts/
-
-    - name: Create deployment record
-      run: |
-        echo "Backend package created successfully"
-        echo "Package: backend-package.zip"
-        echo "Deployment timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" > backend-artifacts/deployment.txt
-
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_DEPLOY_KEY }}
-        known_hosts: unnecessary
-        if_key_exists: replace
-
-    - name: Add known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-
-    - name: Deploy backend artifacts to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
-        publish_dir: ./backend-artifacts
-        destination_dir: backend-artifacts
-        keep_files: true
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        commit_message: 'Deploy backend artifacts'

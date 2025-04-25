@@ -1,8 +1,8 @@
 # Breast Cancer Detection Application
 
-[![Complete CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
-[![Frontend Status](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://breast-cancer-frontend-keerthana.onrender.com)
-[![Backend Status](https://img.shields.io/badge/backend-deployed-blue)](https://breast-cancer-api-keerthana.onrender.com)
+[![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
+[![Frontend](https://img.shields.io/badge/frontend-React-blue)](http://localhost:3000)
+[![Backend](https://img.shields.io/badge/backend-Flask-green)](http://localhost:5003)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -70,17 +70,17 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## Comprehensive CI/CD Pipeline
+## Local Deployment with CI/CD Pipeline
 
-This project uses GitHub Actions for a complete CI/CD pipeline that handles both frontend and backend:
+This project uses GitHub Actions for a complete CI/CD pipeline that automatically runs the application locally:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request
-- **Frontend Deployment**: Deploys the React frontend to GitHub Pages using SSH deploy keys
-- **Backend Deployment**: Builds and pushes the backend Docker image to GitHub Container Registry
+- **Local Deployment**: Starts both frontend and backend servers locally
+- **Automatic Launch**: Opens the application in a browser after deployment
 
 ### Pipeline Workflow
 
-The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of three jobs:
+The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of two jobs:
 
 #### 1. Test and Build
 - Checks out the code
@@ -90,48 +90,58 @@ The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` 
 - Builds and tests Docker images
 - Verifies containers are running correctly
 
-#### 2. Frontend Deployment
-- Builds the React application
-- Uses SSH deploy keys for secure authentication
-- Deploys the built frontend to GitHub Pages
-- Makes the application accessible at https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
+#### 2. Deploy and Run
+- Installs all dependencies for frontend and backend
+- Starts the backend server on port 5003
+- Starts the frontend development server on port 3000
+- Automatically opens the application in a browser
+- Keeps the servers running for 1 hour to allow testing
 
-#### 3. Backend Deployment
-- Creates a deployable backend package with source code and instructions
-- Packages the backend as a zip file (under 100MB)
-- Deploys the package to GitHub Pages
-- Creates a deployment record
-- Uses the same SSH deploy keys for authentication
+### How to Use
 
-### SSH Deploy Key Setup
-The deployment uses SSH deploy keys for secure authentication:
-1. SSH keys have been generated and configured
-2. The public key is added to the repository's deploy keys (with write access)
-3. The private key is stored as a repository secret named `SSH_DEPLOY_KEY`
+When you push changes to the main branch or manually trigger the workflow:
 
-For detailed information about the SSH key setup, see:
-- [SSH Deploy Key Setup](docs/ssh-key-setup.md)
+1. The CI/CD pipeline will run tests and build the application
+2. It will then start both the frontend and backend servers
+3. The application will automatically open in a browser
+4. You can use the application to make predictions for 1 hour before the servers shut down
+
+This approach allows you to immediately test and use the application after deployment without any manual setup.
 
 ## Usage
 
-### Live Deployed Application
+### Using the Application
 
-The application is fully deployed and ready to use:
+After the CI/CD pipeline runs, the application will be available locally:
 
-- **Frontend**: [https://breast-cancer-frontend-keerthana.onrender.com](https://breast-cancer-frontend-keerthana.onrender.com)
-- **Backend API**: [https://breast-cancer-api-keerthana.onrender.com](https://breast-cancer-api-keerthana.onrender.com)
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5003
 
 To use the application:
 
-1. Open the frontend URL in your web browser
+1. The application will automatically open in your browser after deployment
 2. Upload a histopathological image using the "Choose File" button
 3. Click "Predict" to analyze the image
 4. View the prediction result (Cancerous or Non-Cancerous)
 
-### Deployment Guide
+### Manual Local Setup
 
-For information on how the application is deployed, see:
-- [Render.com Deployment Guide](docs/render-deployment.md)
+If you prefer to run the application manually:
+
+1. Clone the repository
+2. Start the backend:
+   ```bash
+   cd BACKEND
+   pip install -r requirements.txt
+   python app.py
+   ```
+3. Start the frontend:
+   ```bash
+   cd my-app
+   npm install
+   npm start
+   ```
+4. Open http://localhost:3000 in your browser
 
 ## Contributing
 
