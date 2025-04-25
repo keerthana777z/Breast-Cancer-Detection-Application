@@ -127,16 +127,21 @@ After the CI/CD pipeline runs, the application will be available at:
 To use the application:
 
 1. Download and extract the backend package
-2. Run the backend:
+2. **Important**: Copy your `my_model3.h5` file to the backend-package directory
+   ```bash
+   # From your local repository
+   cp /path/to/your/BACKEND/my_model3.h5 /path/to/backend-package/
+   ```
+3. Run the backend:
    ```bash
    cd backend-package
    pip install -r requirements.txt
    python app.py
    ```
-3. Open the frontend URL in your browser
-4. Upload a histopathological image using the "Choose File" button
-5. Click "Predict" to analyze the image
-6. View the prediction result (Cancerous or Non-Cancerous)
+4. Open the frontend URL in your browser
+5. Upload a histopathological image using the "Choose File" button
+6. Click "Predict" to analyze the image
+7. View the prediction result (Cancerous or Non-Cancerous)
 
 ### Manual Local Setup
 
