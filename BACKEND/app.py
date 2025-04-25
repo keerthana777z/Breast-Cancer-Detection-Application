@@ -6,7 +6,8 @@ from flask_cors import CORS
 from PIL import Image
 
 app = Flask(__name__)
-CORS(app)
+# Enable CORS for all domains
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 MODEL_PATH = os.environ.get("MODEL_PATH", "my_model3.h5")
 

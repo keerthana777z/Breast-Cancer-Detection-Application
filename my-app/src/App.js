@@ -26,11 +26,13 @@ function App() {
   };
 
   // Use different URLs based on environment
-  // When running in browser locally, use localhost:5003
-  // When running in Docker, the nginx proxy will handle the routing
-  const API_URL = window.location.hostname === 'localhost' && window.location.port === '3001'
+  // When running locally, use localhost:5003
+  // When deployed, use the deployed backend URL on Render.com
+  const DEPLOYED_BACKEND_URL = "https://breast-cancer-detection-api.onrender.com";
+
+  const API_URL = window.location.hostname === 'localhost'
     ? "http://localhost:5003"
-    : "";  // Use empty base URL for Docker environment (nginx handles routing)
+    : DEPLOYED_BACKEND_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +55,8 @@ function App() {
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json',
         },
+        // Enable CORS for the deployed backend
+        withCredentials: false,
       });
 
       console.log("Response data:", response.data);

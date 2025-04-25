@@ -1,8 +1,8 @@
 # Breast Cancer Detection Application
 
 [![Complete CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
-[![Deployed Frontend](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
-[![Backend Status](https://img.shields.io/badge/backend-artifacts-blue)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/deployment.txt)
+[![Frontend Status](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://breast-cancer-detection-frontend.onrender.com)
+[![Backend Status](https://img.shields.io/badge/backend-deployed-blue)](https://breast-cancer-detection-api.onrender.com)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -114,10 +114,24 @@ For detailed information about the SSH key setup, see:
 
 ## Usage
 
-1. Open the application in your web browser
+### Live Deployed Application
+
+The application is fully deployed and ready to use:
+
+- **Frontend**: [https://breast-cancer-detection-frontend.onrender.com](https://breast-cancer-detection-frontend.onrender.com)
+- **Backend API**: [https://breast-cancer-detection-api.onrender.com](https://breast-cancer-detection-api.onrender.com)
+
+To use the application:
+
+1. Open the frontend URL in your web browser
 2. Upload a histopathological image using the "Choose File" button
 3. Click "Predict" to analyze the image
 4. View the prediction result (Cancerous or Non-Cancerous)
+
+### Deployment Guide
+
+For information on how the application is deployed, see:
+- [Render.com Deployment Guide](docs/render-deployment.md)
 
 ## Contributing
 
