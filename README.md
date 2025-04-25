@@ -70,7 +70,7 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## CI/CD Pipeline with GitHub Pages Deployment
+## CI/CD Pipeline with GitHub Pages Deployment (Updated)
 
 This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application:
 
