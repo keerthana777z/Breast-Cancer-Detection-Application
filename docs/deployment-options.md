@@ -2,6 +2,13 @@
 
 This document explains the different deployment options available for the Breast Cancer Detection Application.
 
+## Current Deployment Status
+
+The application is currently deployed to GitHub Pages at:
+https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
+
+This is a simple demo page that confirms the CI/CD pipeline is working correctly.
+
 ## 1. GitHub Pages (Frontend Only)
 
 GitHub Pages is the simplest option for deploying the frontend of your application. It's free and directly integrated with GitHub.
