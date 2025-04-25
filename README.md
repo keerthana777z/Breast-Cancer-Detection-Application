@@ -1,8 +1,8 @@
 # Breast Cancer Detection Application
 
-[![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml)
-[![Deploy with SSH Deploy Keys](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml)
-[![Deployed Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
+[![Complete CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
+[![Deployed Frontend](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
+[![Backend Status](https://img.shields.io/badge/backend-containerized-blue)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/pkgs/container/breast-cancer-detection-backend)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -70,35 +70,45 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## CI/CD Pipeline
+## Comprehensive CI/CD Pipeline
 
-This project uses GitHub Actions for continuous integration and deployment:
+This project uses GitHub Actions for a complete CI/CD pipeline that handles both frontend and backend:
 
-- **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request.
-- **Continuous Deployment**: Automatically deploys the application using SSH deploy key authentication when changes are pushed to the main branch.
+- **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request
+- **Frontend Deployment**: Deploys the React frontend to GitHub Pages using SSH deploy keys
+- **Backend Deployment**: Builds and pushes the backend Docker image to GitHub Container Registry
 
-The CI/CD pipeline performs the following steps:
+### Pipeline Workflow
 
-### Testing and Building
-1. Checks out the code
-2. Sets up Node.js and Python environments
-3. Installs dependencies
-4. Runs frontend tests
-5. Builds Docker images
-6. Starts the containers and verifies they're running correctly
+The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of three jobs:
 
-### Deployment with SSH Keys
-7. Generates an SSH key pair during the workflow run
-8. Sets up SSH authentication with GitHub
-9. Deploys the application to GitHub Pages using SSH
+#### 1. Test and Build
+- Checks out the code
+- Sets up Node.js and Python environments
+- Installs dependencies for both frontend and backend
+- Runs frontend tests
+- Builds and tests Docker images
+- Verifies containers are running correctly
+
+#### 2. Frontend Deployment
+- Builds the React application
+- Uses SSH deploy keys for secure authentication
+- Deploys the built frontend to GitHub Pages
+- Makes the application accessible at https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
+
+#### 3. Backend Deployment
+- Builds the backend Docker image
+- Pushes the image to GitHub Container Registry
+- Creates a deployment record
+- Uses the same SSH deploy keys for authentication
 
 ### SSH Deploy Key Setup
-To enable secure deployment with SSH deploy keys:
-1. Generate an SSH key pair on your local machine
-2. Add the public key to your repository's deploy keys (with write access)
-3. Add the private key as a repository secret named `SSH_DEPLOY_KEY`
+The deployment uses SSH deploy keys for secure authentication:
+1. SSH keys have been generated and configured
+2. The public key is added to the repository's deploy keys (with write access)
+3. The private key is stored as a repository secret named `SSH_DEPLOY_KEY`
 
-For detailed step-by-step instructions, see:
+For detailed information about the SSH key setup, see:
 - [SSH Deploy Key Setup](docs/ssh-key-setup.md)
 
 ## Usage
