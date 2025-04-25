@@ -92,13 +92,15 @@ The CI/CD pipeline performs the following steps:
 8. Sets up SSH authentication with GitHub
 9. Deploys the application to GitHub Pages using SSH
 
-### SSH Key Setup
-To enable the deployment with SSH keys, you need to:
-1. Run the workflow once to generate the SSH key
-2. Add the public key (displayed in the workflow logs) to your repository's deploy keys
-3. Make sure to give the deploy key write access
+### GitHub Actions Permissions
+To enable the deployment with GitHub Actions, you need to:
+1. Go to your repository Settings > Actions > General
+2. Under "Workflow permissions", select "Read and write permissions"
+3. Save the changes
 
-For detailed instructions, see [SSH Key Setup](docs/ssh-key-setup.md).
+For detailed instructions, see:
+- [GitHub Pages Permissions](docs/github-pages-permissions.md)
+- [SSH Key Setup](docs/ssh-key-setup.md) (alternative approach)
 
 ## Usage
 
