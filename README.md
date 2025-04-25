@@ -1,8 +1,8 @@
 # Breast Cancer Detection Application
 
 [![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
-[![Frontend](https://img.shields.io/badge/frontend-React-blue)](http://localhost:3000)
-[![Backend](https://img.shields.io/badge/backend-Flask-green)](http://localhost:5003)
+[![Frontend](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
+[![Backend](https://img.shields.io/badge/backend-packaged-blue)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend-package.zip)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -70,87 +70,77 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## Comprehensive CI/CD Pipeline
+## CI/CD Pipeline with GitHub Pages Deployment
 
-This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application to a production server:
+This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request
-- **Continuous Deployment**: Pushes Docker images to Docker Hub and deploys to a production server
-- **Docker Compose**: Uses Docker Compose for orchestrating the application containers
-- **SSH Deployment**: Securely deploys to your production server using SSH
+- **Frontend Deployment**: Deploys the React frontend to GitHub Pages
+- **Backend Packaging**: Creates a downloadable package for the backend
 
 ### Pipeline Workflow
 
-The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of a single job with multiple steps:
+The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of three jobs:
 
-#### Build, Test, and Deploy
-1. **Setup Environment**
-   - Checks out the code
-   - Sets up Node.js and Python environments
-   - Configures Docker and Docker Compose
+#### 1. Test and Build
+- Checks out the code
+- Sets up Node.js and Python environments
+- Installs dependencies for both frontend and backend
+- Runs frontend tests
+- Builds and tests Docker images
+- Verifies containers are running correctly
 
-2. **Install Dependencies & Verify**
-   - Installs frontend and backend dependencies
-   - Verifies the model file exists
+#### 2. Frontend Deployment
+- Builds the React application
+- Deploys the built frontend to GitHub Pages
+- Makes the application accessible at https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
 
-3. **Run Tests**
-   - Runs frontend tests
-   - Builds and tests Docker containers
-
-4. **Build and Push Docker Images**
-   - Logs in to Docker Hub
-   - Builds and pushes frontend and backend images
-
-5. **Deploy to Production**
-   - Creates deployment files (docker-compose.prod.yml and deploy.sh)
-   - Copies files to the production server
-   - Executes the deployment script on the server
-   - Notifies of deployment success or failure
+#### 3. Backend Deployment
+- Creates a deployable backend package with source code and instructions
+- Packages the backend as a zip file
+- Deploys the package to GitHub Pages
+- Creates a deployment record
 
 ### How to Use
 
 When you push changes to the main branch or manually trigger the workflow:
 
 1. The CI/CD pipeline will run tests and build the application
-2. It will then build and push Docker images to Docker Hub
-3. Finally, it will deploy the application to your production server
-4. You can access the application at http://your-server-ip
+2. It will then deploy the frontend to GitHub Pages
+3. It will package the backend and make it available for download
+4. You can access the frontend at https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
+5. You can download and run the backend package from https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend-package.zip
 
-### Required Secrets
+### Required Permissions
 
-To use this CI/CD pipeline, you need to set up the following secrets in your GitHub repository:
-
-1. **Docker Hub Credentials**
-   - `DOCKER_HUB_USERNAME`: Your Docker Hub username
-   - `DOCKER_HUB_ACCESS_TOKEN`: Your Docker Hub access token
-
-2. **SSH Deployment Credentials**
-   - `SSH_HOST`: The IP address or hostname of your production server
-   - `SSH_USERNAME`: The username for SSH access to your server
-   - `SSH_PRIVATE_KEY`: Your SSH private key for server access
-   - `SSH_PORT`: The SSH port (usually 22)
-
-You can add these secrets in your GitHub repository under Settings > Secrets and variables > Actions.
+This workflow uses the built-in `GITHUB_TOKEN` secret which is automatically provided by GitHub Actions. No additional secrets are required for this deployment approach.
 
 ## Usage
 
-### Using the Application
+### Using the Deployed Application
 
-After the CI/CD pipeline runs, the application will be available locally:
+After the CI/CD pipeline runs, the application will be available at:
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5003
+- **Frontend**: [https://keerthana777z.github.io/Breast-Cancer-Detection-Application/](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
+- **Backend Package**: [https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend-package.zip](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend-package.zip)
 
 To use the application:
 
-1. The application will automatically open in your browser after deployment
-2. Upload a histopathological image using the "Choose File" button
-3. Click "Predict" to analyze the image
-4. View the prediction result (Cancerous or Non-Cancerous)
+1. Download and extract the backend package
+2. Run the backend:
+   ```bash
+   cd backend-package
+   pip install -r requirements.txt
+   python app.py
+   ```
+3. Open the frontend URL in your browser
+4. Upload a histopathological image using the "Choose File" button
+5. Click "Predict" to analyze the image
+6. View the prediction result (Cancerous or Non-Cancerous)
 
 ### Manual Local Setup
 
-If you prefer to run the application manually:
+If you prefer to run the entire application locally:
 
 1. Clone the repository
 2. Start the backend:
