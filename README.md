@@ -1,8 +1,8 @@
 # Breast Cancer Detection Application
 
 [![Complete CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
-[![Frontend Status](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://breast-cancer-detection-frontend.onrender.com)
-[![Backend Status](https://img.shields.io/badge/backend-deployed-blue)](https://breast-cancer-detection-api.onrender.com)
+[![Frontend Status](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://breast-cancer-frontend-keerthana.onrender.com)
+[![Backend Status](https://img.shields.io/badge/backend-deployed-blue)](https://breast-cancer-api-keerthana.onrender.com)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -118,8 +118,8 @@ For detailed information about the SSH key setup, see:
 
 The application is fully deployed and ready to use:
 
-- **Frontend**: [https://breast-cancer-detection-frontend.onrender.com](https://breast-cancer-detection-frontend.onrender.com)
-- **Backend API**: [https://breast-cancer-detection-api.onrender.com](https://breast-cancer-detection-api.onrender.com)
+- **Frontend**: [https://breast-cancer-frontend-keerthana.onrender.com](https://breast-cancer-frontend-keerthana.onrender.com)
+- **Backend API**: [https://breast-cancer-api-keerthana.onrender.com](https://breast-cancer-api-keerthana.onrender.com)
 
 To use the application:
 
