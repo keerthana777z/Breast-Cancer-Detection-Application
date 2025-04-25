@@ -1,6 +1,8 @@
 # Breast Cancer Detection Application
 
-![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml/badge.svg)
+[![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml)
+[![Deploy with SSH Keys](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml)
+[![Deployed Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -73,7 +75,7 @@ If you want to run the application without Docker for development:
 This project uses GitHub Actions for continuous integration and deployment:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request.
-- **Continuous Deployment**: Automatically deploys the application to AWS Elastic Beanstalk when changes are pushed to the main branch.
+- **Continuous Deployment**: Automatically deploys the application using SSH key authentication when changes are pushed to the main branch.
 
 The CI/CD pipeline performs the following steps:
 
@@ -85,13 +87,18 @@ The CI/CD pipeline performs the following steps:
 5. Builds Docker images
 6. Starts the containers and verifies they're running correctly
 
-### Deployment
-7. Builds and pushes Docker images to Amazon ECR
-8. Generates Dockerrun.aws.json configuration
-9. Deploys to AWS Elastic Beanstalk
+### Deployment with SSH Keys
+7. Generates an SSH key pair during the workflow run
+8. Sets up SSH authentication with GitHub
+9. Deploys the application to GitHub Pages using SSH
 
-### Alternative Deployment
-The project also includes a separate workflow to deploy the frontend to GitHub Pages for demonstration purposes.
+### SSH Key Setup
+To enable the deployment with SSH keys, you need to:
+1. Run the workflow once to generate the SSH key
+2. Add the public key (displayed in the workflow logs) to your repository's deploy keys
+3. Make sure to give the deploy key write access
+
+For detailed instructions, see [SSH Key Setup](docs/ssh-key-setup.md).
 
 ## Usage
 
