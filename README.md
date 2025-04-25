@@ -70,32 +70,42 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## Docker Deployment with CI/CD Pipeline
+## Comprehensive CI/CD Pipeline
 
-This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application:
+This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application to a production server:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request
-- **Continuous Deployment**: Pushes Docker images to Docker Hub and deploys the application
+- **Continuous Deployment**: Pushes Docker images to Docker Hub and deploys to a production server
 - **Docker Compose**: Uses Docker Compose for orchestrating the application containers
+- **SSH Deployment**: Securely deploys to your production server using SSH
 
 ### Pipeline Workflow
 
-The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of two jobs:
+The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` and consists of a single job with multiple steps:
 
-#### 1. Test and Build
-- Checks out the code
-- Sets up Node.js and Python environments
-- Installs dependencies for both frontend and backend
-- Runs frontend tests
-- Builds and tests Docker images
-- Verifies containers are running correctly
+#### Build, Test, and Deploy
+1. **Setup Environment**
+   - Checks out the code
+   - Sets up Node.js and Python environments
+   - Configures Docker and Docker Compose
 
-#### 2. Deploy
-- Builds Docker images for both frontend and backend
-- Pushes the images to Docker Hub
-- Creates a production Docker Compose file
-- Deploys the application using Docker Compose
-- Makes the application available on ports 8080 (frontend) and 5003 (backend)
+2. **Install Dependencies & Verify**
+   - Installs frontend and backend dependencies
+   - Verifies the model file exists
+
+3. **Run Tests**
+   - Runs frontend tests
+   - Builds and tests Docker containers
+
+4. **Build and Push Docker Images**
+   - Logs in to Docker Hub
+   - Builds and pushes frontend and backend images
+
+5. **Deploy to Production**
+   - Creates deployment files (docker-compose.prod.yml and deploy.sh)
+   - Copies files to the production server
+   - Executes the deployment script on the server
+   - Notifies of deployment success or failure
 
 ### How to Use
 
@@ -103,15 +113,22 @@ When you push changes to the main branch or manually trigger the workflow:
 
 1. The CI/CD pipeline will run tests and build the application
 2. It will then build and push Docker images to Docker Hub
-3. Finally, it will deploy the application using Docker Compose
-4. You can access the application at http://localhost:8080
+3. Finally, it will deploy the application to your production server
+4. You can access the application at http://your-server-ip
 
 ### Required Secrets
 
 To use this CI/CD pipeline, you need to set up the following secrets in your GitHub repository:
 
-- `DOCKER_HUB_USERNAME`: Your Docker Hub username
-- `DOCKER_HUB_ACCESS_TOKEN`: Your Docker Hub access token
+1. **Docker Hub Credentials**
+   - `DOCKER_HUB_USERNAME`: Your Docker Hub username
+   - `DOCKER_HUB_ACCESS_TOKEN`: Your Docker Hub access token
+
+2. **SSH Deployment Credentials**
+   - `SSH_HOST`: The IP address or hostname of your production server
+   - `SSH_USERNAME`: The username for SSH access to your server
+   - `SSH_PRIVATE_KEY`: Your SSH private key for server access
+   - `SSH_PORT`: The SSH port (usually 22)
 
 You can add these secrets in your GitHub repository under Settings > Secrets and variables > Actions.
 
