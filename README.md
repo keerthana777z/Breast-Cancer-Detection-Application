@@ -97,9 +97,9 @@ The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` 
 - Makes the application accessible at https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
 
 #### 3. Backend Deployment
-- Builds the backend Docker image
-- Saves the Docker image as an artifact
-- Deploys artifacts to GitHub Pages
+- Creates a deployable backend package with source code and instructions
+- Packages the backend as a zip file (under 100MB)
+- Deploys the package to GitHub Pages
 - Creates a deployment record
 - Uses the same SSH deploy keys for authentication
 

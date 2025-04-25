@@ -9,18 +9,27 @@ https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
 
 ## Using the Backend
 
-The backend is built as a Docker image and its artifacts are stored on GitHub Pages. You can download and load the Docker image:
+The backend code and deployment files are packaged as a zip file and stored on GitHub Pages. You can download and run it:
 
 ```bash
-# Download the backend Docker image artifact
-curl -L -o backend.tar https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend.tar
+# Download the backend package
+curl -L -o backend-package.zip https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend-package.zip
 
-# Load the Docker image
-docker load < backend.tar
+# Extract the package
+unzip backend-package.zip -d backend
 
-# Run the backend container
-docker run -p 5003:5003 breast-cancer-detection-backend:latest
+# Navigate to the backend directory
+cd backend
+
+# Option 1: Run with Docker Compose
+docker-compose up --build
+
+# Option 2: Run directly with Python
+pip install -r requirements.txt
+python app.py
 ```
+
+The backend will be available at http://localhost:5003
 
 ## Connecting Frontend to Backend
 

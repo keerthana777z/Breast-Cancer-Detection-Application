@@ -137,26 +137,76 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Build backend Docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: ./BACKEND
-        push: false
-        load: true
-        tags: breast-cancer-detection-backend:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-
-    - name: Save backend Docker image
+    - name: Prepare backend deployment package
       run: |
-        mkdir -p backend-image
-        docker save breast-cancer-detection-backend:latest > backend-image/backend.tar
+        mkdir -p backend-package
+        # Copy the backend code
+        cp -r BACKEND/* backend-package/
+        # Create a simple deployment script
+        cat > backend-package/deploy.sh << 'EOF'
+        #!/bin/bash
+        # Simple deployment script for the backend
+
+        # Install dependencies
+        pip install -r requirements.txt
+
+        # Run the backend
+        python app.py
+        EOF
+        chmod +x backend-package/deploy.sh
+
+        # Create a Docker Compose file for easy deployment
+        cat > backend-package/docker-compose.yml << 'EOF'
+        version: '3'
+        services:
+          backend:
+            build: .
+            ports:
+              - "5003:5003"
+            environment:
+              - PORT=5003
+        EOF
+
+        # Create a README with instructions
+        cat > backend-package/README.md << 'EOF'
+        # Breast Cancer Detection Backend
+
+        This is the backend for the Breast Cancer Detection Application.
+
+        ## Running with Docker
+
+        ```bash
+        # Build and run with Docker Compose
+        docker-compose up --build
+        ```
+
+        ## Running without Docker
+
+        ```bash
+        # Install dependencies
+        pip install -r requirements.txt
+
+        # Run the application
+        python app.py
+        ```
+
+        The backend will be available at http://localhost:5003
+        EOF
+
+        # Create a zip file of the backend package (under 100MB)
+        cd backend-package
+        zip -r ../backend-package.zip .
+        cd ..
+
+        # Move the zip file to the deployment directory
+        mkdir -p backend-artifacts
+        mv backend-package.zip backend-artifacts/
 
     - name: Create deployment record
       run: |
-        echo "Backend image built successfully"
-        echo "Image: breast-cancer-detection-backend:latest"
-        echo "Deployment timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" > backend-image/deployment.txt
+        echo "Backend package created successfully"
+        echo "Package: backend-package.zip"
+        echo "Deployment timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" > backend-artifacts/deployment.txt
 
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
@@ -174,7 +224,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
-        publish_dir: ./backend-image
+        publish_dir: ./backend-artifacts
         destination_dir: backend-artifacts
         keep_files: true
         user_name: 'github-actions[bot]'
