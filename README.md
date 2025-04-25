@@ -70,13 +70,13 @@ If you want to run the application without Docker for development:
    npm start
    ```
 
-## Local Deployment with CI/CD Pipeline
+## Docker Deployment with CI/CD Pipeline
 
-This project uses GitHub Actions for a complete CI/CD pipeline that automatically runs the application locally:
+This project uses GitHub Actions for a complete CI/CD pipeline that automatically builds, tests, and deploys the application:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request
-- **Local Deployment**: Starts both frontend and backend servers locally
-- **Automatic Launch**: Opens the application in a browser after deployment
+- **Continuous Deployment**: Pushes Docker images to Docker Hub and deploys the application
+- **Docker Compose**: Uses Docker Compose for orchestrating the application containers
 
 ### Pipeline Workflow
 
@@ -90,23 +90,30 @@ The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` 
 - Builds and tests Docker images
 - Verifies containers are running correctly
 
-#### 2. Deploy and Run
-- Installs all dependencies for frontend and backend
-- Starts the backend server on port 5003
-- Starts the frontend development server on port 3000
-- Automatically opens the application in a browser
-- Keeps the servers running for 1 hour to allow testing
+#### 2. Deploy
+- Builds Docker images for both frontend and backend
+- Pushes the images to Docker Hub
+- Creates a production Docker Compose file
+- Deploys the application using Docker Compose
+- Makes the application available on ports 8080 (frontend) and 5003 (backend)
 
 ### How to Use
 
 When you push changes to the main branch or manually trigger the workflow:
 
 1. The CI/CD pipeline will run tests and build the application
-2. It will then start both the frontend and backend servers
-3. The application will automatically open in a browser
-4. You can use the application to make predictions for 1 hour before the servers shut down
+2. It will then build and push Docker images to Docker Hub
+3. Finally, it will deploy the application using Docker Compose
+4. You can access the application at http://localhost:8080
 
-This approach allows you to immediately test and use the application after deployment without any manual setup.
+### Required Secrets
+
+To use this CI/CD pipeline, you need to set up the following secrets in your GitHub repository:
+
+- `DOCKER_HUB_USERNAME`: Your Docker Hub username
+- `DOCKER_HUB_ACCESS_TOKEN`: Your Docker Hub access token
+
+You can add these secrets in your GitHub repository under Settings > Secrets and variables > Actions.
 
 ## Usage
 
