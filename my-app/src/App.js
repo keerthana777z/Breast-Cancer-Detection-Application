@@ -28,7 +28,7 @@ function App() {
   // Use different URLs based on environment
   // When running locally, use localhost:5003
   // When deployed, use the deployed backend URL on Render.com
-  const DEPLOYED_BACKEND_URL = "https://breast-cancer-detection-api.onrender.com";
+  const DEPLOYED_BACKEND_URL = "https://breast-cancer-api-keerthana.onrender.com";
 
   const API_URL = window.location.hostname === 'localhost'
     ? "http://localhost:5003"
