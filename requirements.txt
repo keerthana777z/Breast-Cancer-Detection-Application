@@ -1,1 +1,7 @@
--r BACKEND/requirements.txt
+flask
+flask-cors
+pillow
+numpy
+tensorflow
+
+

@@ -31,7 +31,7 @@ function App() {
   const DEPLOYED_BACKEND_URL = "https://breast-cancer-api-keerthana.onrender.com";
 
   const API_URL = window.location.hostname === 'localhost'
-    ? "http://localhost:5003"
+    ? "http://localhost:5004"
     : DEPLOYED_BACKEND_URL;
 
   const handleSubmit = async (e) => {
