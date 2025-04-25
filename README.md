@@ -1,7 +1,7 @@
 # Breast Cancer Detection Application
 
 [![CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/ci-cd.yml)
-[![Deploy with SSH Keys](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml)
+[![Deploy with SSH Deploy Keys](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/deploy-github-pages.yml)
 [![Deployed Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
@@ -75,7 +75,7 @@ If you want to run the application without Docker for development:
 This project uses GitHub Actions for continuous integration and deployment:
 
 - **Continuous Integration**: Automatically runs tests and builds Docker images on every push and pull request.
-- **Continuous Deployment**: Automatically deploys the application using SSH key authentication when changes are pushed to the main branch.
+- **Continuous Deployment**: Automatically deploys the application using SSH deploy key authentication when changes are pushed to the main branch.
 
 The CI/CD pipeline performs the following steps:
 
@@ -92,15 +92,14 @@ The CI/CD pipeline performs the following steps:
 8. Sets up SSH authentication with GitHub
 9. Deploys the application to GitHub Pages using SSH
 
-### GitHub Actions Permissions
-To enable the deployment with GitHub Actions, you need to:
-1. Go to your repository Settings > Actions > General
-2. Under "Workflow permissions", select "Read and write permissions"
-3. Save the changes
+### SSH Deploy Key Setup
+To enable secure deployment with SSH deploy keys:
+1. Generate an SSH key pair on your local machine
+2. Add the public key to your repository's deploy keys (with write access)
+3. Add the private key as a repository secret named `SSH_DEPLOY_KEY`
 
-For detailed instructions, see:
-- [GitHub Pages Permissions](docs/github-pages-permissions.md)
-- [SSH Key Setup](docs/ssh-key-setup.md) (alternative approach)
+For detailed step-by-step instructions, see:
+- [SSH Deploy Key Setup](docs/ssh-key-setup.md)
 
 ## Usage
 

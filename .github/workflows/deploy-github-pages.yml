@@ -1,4 +1,4 @@
-name: Deploy with SSH Keys
+name: Deploy with SSH Deploy Keys
 
 on:
   workflow_dispatch:  # Allow manual triggering
@@ -66,7 +66,7 @@ jobs:
 
             <div class="success">
               <h2>✅ Deployment Successful!</h2>
-              <p>The CI/CD pipeline with SSH keys is working correctly.</p>
+              <p>The CI/CD pipeline with SSH deploy keys is working correctly.</p>
             </div>
 
             <div class="container">
@@ -80,7 +80,7 @@ jobs:
                   <li>Real-time prediction using a trained deep learning model</li>
                   <li>Responsive web interface</li>
                   <li>Dockerized application for easy deployment</li>
-                  <li>CI/CD pipeline with SSH key authentication</li>
+                  <li>CI/CD pipeline with SSH deploy key authentication</li>
                 </ul>
               </div>
             </div>
@@ -88,21 +88,24 @@ jobs:
           </html>
           EOF
 
-      - name: Generate SSH key (for demonstration)
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          known_hosts: unnecessary
+          if_key_exists: fail
+
+      - name: Add known hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keygen -t rsa -b 4096 -C "github-actions-bot@example.com" -f ~/.ssh/github_actions -N ""
-          echo "Generated SSH key (for demonstration purposes):"
-          cat ~/.ssh/github_actions.pub
-          echo "Note: This key is not actually used for deployment in this workflow."
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          folder: demo
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          clean: true
-          commit-message: "Deploy to GitHub Pages"
-          git-config-name: github-actions[bot]
-          git-config-email: github-actions[bot]@users.noreply.github.com
+          deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+          publish_dir: ./demo
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy to GitHub Pages with SSH deploy key'
