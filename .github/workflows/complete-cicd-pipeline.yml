@@ -111,6 +111,17 @@ jobs:
     - name: Start backend server
       run: |
         cd BACKEND
+        # Verify the model file exists
+        ls -la
+        echo "Checking for model file..."
+        if [ -f "my_model3.h5" ]; then
+          echo "✅ Model file found: my_model3.h5"
+        else
+          echo "❌ Model file not found!"
+          exit 1
+        fi
+
+        # Start the backend server
         python app.py &
         echo "Backend server started on http://localhost:5003"
         sleep 5  # Give the backend time to start
