@@ -9,14 +9,17 @@ https://keerthana777z.github.io/Breast-Cancer-Detection-Application/
 
 ## Using the Backend
 
-The backend is containerized and available as a Docker image in the GitHub Container Registry. You can pull and run it locally:
+The backend is built as a Docker image and its artifacts are stored on GitHub Pages. You can download and load the Docker image:
 
 ```bash
-# Pull the latest backend image
-docker pull ghcr.io/keerthana777z/breast-cancer-detection-backend:latest
+# Download the backend Docker image artifact
+curl -L -o backend.tar https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/backend.tar
+
+# Load the Docker image
+docker load < backend.tar
 
 # Run the backend container
-docker run -p 5003:5003 ghcr.io/keerthana777z/breast-cancer-detection-backend:latest
+docker run -p 5003:5003 breast-cancer-detection-backend:latest
 ```
 
 ## Connecting Frontend to Backend
@@ -35,16 +38,16 @@ For a complete deployment, you can deploy the backend to a cloud provider:
    ```bash
    # Login to Heroku
    heroku login
-   
+
    # Create a new Heroku app
    heroku create breast-cancer-detection-api
-   
+
    # Set up Heroku container registry
    heroku container:login
-   
+
    # Build and push the Docker image
    heroku container:push web -a breast-cancer-detection-api
-   
+
    # Release the container
    heroku container:release web -a breast-cancer-detection-api
    ```
@@ -57,7 +60,7 @@ For a complete deployment, you can deploy the backend to a cloud provider:
    ```bash
    # Build and push to Google Container Registry
    gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/breast-cancer-detection-backend
-   
+
    # Deploy to Cloud Run
    gcloud run deploy breast-cancer-detection-backend \
      --image gcr.io/YOUR_PROJECT_ID/breast-cancer-detection-backend \

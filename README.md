@@ -2,7 +2,7 @@
 
 [![Complete CI/CD Pipeline](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml/badge.svg)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/actions/workflows/complete-cicd-pipeline.yml)
 [![Deployed Frontend](https://img.shields.io/badge/frontend-deployed-brightgreen)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/)
-[![Backend Status](https://img.shields.io/badge/backend-containerized-blue)](https://github.com/keerthana777z/Breast-Cancer-Detection-Application/pkgs/container/breast-cancer-detection-backend)
+[![Backend Status](https://img.shields.io/badge/backend-artifacts-blue)](https://keerthana777z.github.io/Breast-Cancer-Detection-Application/backend-artifacts/deployment.txt)
 
 A web application for detecting breast cancer from histopathological images using deep learning.
 
@@ -98,7 +98,8 @@ The CI/CD pipeline is defined in `.github/workflows/complete-cicd-pipeline.yml` 
 
 #### 3. Backend Deployment
 - Builds the backend Docker image
-- Pushes the image to GitHub Container Registry
+- Saves the Docker image as an artifact
+- Deploys artifacts to GitHub Pages
 - Creates a deployment record
 - Uses the same SSH deploy keys for authentication
 
